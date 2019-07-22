@@ -23,5 +23,14 @@ function equitri(n){
     
 }
 var n=process.argv[2];
-equitri(n);
+if (n >= 2 && n <= 10){
+    equitri(n);
+
+} 
+else{
+    console.log('invalid input');
+}
+
+
+
     
