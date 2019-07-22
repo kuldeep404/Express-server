@@ -1,0 +1,20 @@
+{
+  "name": "patterns",
+  "version": "1.0.0",
+  "description": "Diamond and equilateral tringle.",
+  "main": "diamond.js",
+  "scripts": {
+    "diamond": "nodejs /home/kuldeep.kumar/Express-server/extra/patterns/diamond.js 5",
+    "equi": "nodejs /home/kuldeep.kumar/Express-server/extra/patterns/equilateral.js 10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuldeep404/Express-server.git"
+  },
+  "author": "kuldeep kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuldeep404/Express-server/issues"
+  },
+  "homepage": "https://github.com/kuldeep404/Express-server#readme"
+}
