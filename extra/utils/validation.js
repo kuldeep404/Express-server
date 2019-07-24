@@ -1,32 +1,23 @@
 
-let users =[
+let users =[{
+      traineeEmail: 'trainee@successive.tech',
+      reviewerEmail: 'reviewer1@successive.tech'},
     {
-    traineeEmail: 'trainee@successive.tech',
-    reviewerEmail: 'reviewer1@successive.tech',
-    },{
-        traineeEmail: '*trainee2@successive.tech',
-        reviewerEmail: 'reviewer21@successive.tech'
-    },
+      traineeEmail: '*trainee2@successive.tech',
+      reviewerEmail: 'reviewer21@successive.tech'},
     {
-        traineeEmail: 'trainee@successive22.tech',
-    reviewerEmail: '%reviewer1@successive.tech'
-    }
-    ]
+      traineeEmail: 'trainee@successive22.tech',
+      reviewerEmail: '%reviewer1@successive.tech'
+    }]
 
 function validateEmail(email) 
 {
  
  let x=/^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@successive.tech$/
- if (x.test(email)){
-    
-    return true;
+ return x.test(email)
  
- }
- else{
-    
-    return false;
- }
 } 
+
 function validateUser(new_users) {
 
     let validuser = [];
@@ -35,20 +26,20 @@ function validateUser(new_users) {
    
     
       new_users.forEach(function(user_n) {
-        const { traineeEmail: a, reviewerEmail:b } = user_n;      //using destructuring assign value to a,b
-        if (validateEmail(a)) {
-            validuser.push(a);
+        const { traineeEmail, reviewerEmail } = user_n;      //using destructuring assign value to a,b
+        if (validateEmail(traineeEmail)) {
+            validuser.push(traineeEmail);
           
         } else {
-          invaliduser.push(a);
+          invaliduser.push(traineeEmail);
           
         }
-        if (validateEmail(b)) {
-          validuser.push(b);
+        if (validateEmail(reviewerEmail)) {
+          validuser.push(reviewerEmail);
           
         }
         else {
-            invaliduser.push(b);
+            invaliduser.push(reviewerEmail);
             
           }
         
