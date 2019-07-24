@@ -1,0 +1,29 @@
+{
+  "name": "patterns",
+  "version": "1.0.0",
+  "description": "Diamond and equilateral tringle.",
+  "main": "index.js",
+  "scripts": {
+    
+    "start:extra":"npx babel-node extra",
+    "start:patterns":"npx babel-node extra/patterns",
+    "start:utils":"npx babel-node extra/utils"
+
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuldeep404/Express-server.git"
+  },
+  "author": "kuldeep kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuldeep404/Express-server/issues"
+  },
+  "homepage": "https://github.com/kuldeep404/Express-server#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  }
+}
