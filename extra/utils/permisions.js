@@ -1,5 +1,5 @@
 import {permissions} from '../constants' ;
- export default function hasPermission(moduleName,role, permissionType){
+export default function hasPermission(moduleName,role, permissionType){
     if (!permissions.hasOwnProperty(moduleName)){
         return false;
     }

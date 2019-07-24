@@ -1,11 +1,15 @@
-import { equilateral_new, diamond_new } from './patterns/index';
-import { haspermission_new, validateUser_new } from './utils/index';
-import { users_new} from './constants';
-equilateral_new(process.argv[2]);
-diamond_new(process.argv[3]);
-const status = haspermission_new('getUsers', 'head-trainer', 'all')
+import { equilateral, diamond } from './patterns/index';
+import { haspermission, validateUser } from './utils/index';
+import { users} from './constants';
+
+console.log("printing equilateral triangle pattern: \n");
+equilateral(process.argv[2]);
+console.log("printing diamond pattern: \n");
+diamond(process.argv[3]);
+
+const status = haspermission('getUsers', 'head-trainer', 'all')
 console.log("Permission Granted status:", status);
-validateUser_new(users_new);
+validateUser(users);
 
 
 
