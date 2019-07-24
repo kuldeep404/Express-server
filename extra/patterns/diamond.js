@@ -1,4 +1,4 @@
-function equitri(n){
+export default function diamond(n){
     var str = '';
     for(var i=1; i<=n; i++){
         for(var k=1; k<=n-i; k++){
@@ -22,15 +22,6 @@ function equitri(n){
     }
     
 }
-var n=process.argv[2];
-if (n >= 2 && n <= 10){
-    equitri(n);
-
-} 
-else{
-    console.log('invalid input');
-}
-
 
 
     

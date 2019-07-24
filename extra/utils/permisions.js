@@ -1,13 +1,5 @@
-let permissions={
-    'getUsers': {
-    all: ['head-trainer'],
-    read : ['trainee', 'trainer'],
-    write : ['trainer'],
-    delete: [],
-    }}
-
-
-function hasPermission(moduleName,role, permissionType){
+import {permissions} from '../constants' ;
+ export default function hasPermission(moduleName,role, permissionType){
     if (!permissions.hasOwnProperty(moduleName)){
         return false;
     }
@@ -22,5 +14,5 @@ function hasPermission(moduleName,role, permissionType){
         return true;
     }
 }
-     let v =   hasPermission("getUsers","head-trainer","all")
-     console.log(v)
+    //let v =   hasPermission("getUsers","head-trainer","all")
+    //console.log(v)
