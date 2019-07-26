@@ -1,10 +1,10 @@
 import validateEmail from './helpers';
-export default function validateUser(NEW_USER: any) {
+export default function validateUser(newUser: any) {
 
   const validuser: string[] = [];
   const invaliduser: string[] = [];
-  NEW_USER.forEach ( (USER: any) => {
-    const { traineeEmail, reviewerEmail } = USER;
+  newUser.forEach ( (user: any) => {
+    const { traineeEmail, reviewerEmail } = user;
     if (validateEmail(traineeEmail)) {
       validuser.push(traineeEmail);
     }

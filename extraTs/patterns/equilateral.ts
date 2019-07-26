@@ -8,6 +8,6 @@ export default function equilateral(n: number) {
             str += '* ';
         }
         console.log( str );
-        str = '';
+        str = ' ';
     }
 }

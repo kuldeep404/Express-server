@@ -1,6 +1,6 @@
 import { permissions  } from '../constants' ;
-export default function hasPermission({ moduleName, role, permissionType }: {
-    moduleName: string; role: string; permissionType: string; }) {
+export default function  hasPermission({ moduleName, role, permissionType }: {
+    moduleName: string; role: string; permissionType: string; }): boolean {
     if (!permissions.hasOwnProperty(moduleName)) {
         return false;
     }
