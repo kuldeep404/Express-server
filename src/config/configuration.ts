@@ -5,5 +5,4 @@ const envVars = process.env;
 const configuration: IConfig = Object.freeze({
 port: envVars.PORT,
 });
-console.log('config is::::', configuration);
 export default configuration;
