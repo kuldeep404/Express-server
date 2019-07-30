@@ -14,9 +14,10 @@ export default class Server {
         app.use('/health-check' , ( req, res ) => {
             res.send('I am ok');
         });
-        // app.use(notFoundRouteMiddleware);
-        // app.use(errorHandlerMiddleware);
         app.use('/api', router);
+        app.use(notFoundRouteMiddleware);
+        app.use(errorHandlerMiddleware);
+        
     }
     public bootstrap() {
         this.setupRoutes();
