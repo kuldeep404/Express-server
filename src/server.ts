@@ -18,10 +18,12 @@ export default class Server {
         app.use(notFoundRouteMiddleware);
         app.use(errorHandlerMiddleware);
         
+        
     }
     public bootstrap() {
-        this.setupRoutes();
         this.initBodyParser();
+        this.setupRoutes();
+        
     }
     public initBodyParser() {
         app.use(bodyParser.urlencoded({ extended: true }));

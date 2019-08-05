@@ -1,8 +1,8 @@
-export const errorHandlerMiddleware = ( req, res, next ) => {
+export const errorHandlerMiddleware = ( error,req, res, next ) => {
     res.send({
         error: 'Not Found',
-        message: 'error',
-        status: 500,
+        message: error,
+        status: '400',
         timestamp: new Date(),
     });
 };
