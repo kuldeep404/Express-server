@@ -6,7 +6,7 @@
   "scripts": {
     "start:extra": "npx babel-node extra",
     "start": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
-    "nodemon": "nodemon ./dist/index.js",
+    "nodemon": "nodemon ./dist/src/index.js",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
     "lint:fix": "npm run lint --fix",
     "commit": "npx git-cz"
@@ -48,6 +48,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "express-validator": "^6.1.1"
+    "express-validator": "^6.1.1",
+    "jsonwebtoken": "^8.5.1"
   }
 }

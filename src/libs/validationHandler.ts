@@ -33,7 +33,7 @@ const validationHandler = (config) => (req, res, next) => {
         if (keyCheck.test(key)) {
             //console.log('Key is deleted');
         } else {
-            console.log('you need to pass key in parameters');
+            //console.log('you need to pass key in parameters');
             next(`${key} ,is required`);
         }
     }
