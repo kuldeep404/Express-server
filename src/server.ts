@@ -1,12 +1,10 @@
 import * as bodyParser from 'body-parser';
 import * as  express from 'express';
+import Database from './libs/Database';
 import { errorHandlerMiddleware } from './libs/routes/errorHandler';
 import { notFoundRouteMiddleware } from './libs/routes/notFoundRoute';
-import  Database  from './libs/Database';
 import router from './router';
-
 const app = express();
-
 export default class Server {
     constructor(private config) {
         this.run();
@@ -18,13 +16,10 @@ export default class Server {
         app.use('/api', router);
         app.use(notFoundRouteMiddleware);
         app.use(errorHandlerMiddleware);
-        
-        
     }
     public bootstrap() {
         this.initBodyParser();
         this.setupRoutes();
-        
     }
     public initBodyParser() {
         app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,7 +27,7 @@ export default class Server {
     }
     public run() {
         const{
-            config: { port,mongoUri },
+            config: { port, mongoUri },
         } = this;
         Database.open(mongoUri);
         app.listen(port);
