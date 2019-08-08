@@ -28,10 +28,10 @@ export default ( ) => {
         .then((res ) => {
             console.log('deleted file ::::::', res);
         });
-    });
-    // .catch((error) => {
-    //     console.log('Error occured',error)
-    //  });
+    })
+    .catch((error) => {
+        console.log('Error occured', error);
+     });
     // .catch((error) => {
     //     console.log('Error occured ::::::',error)
     // });
