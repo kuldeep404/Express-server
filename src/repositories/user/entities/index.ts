@@ -1,1 +1,1 @@
-export {default as IQueryGet } from './IQueryGet';
+export { default as IQueryGet } from './IQueryGet';

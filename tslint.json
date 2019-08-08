@@ -117,6 +117,8 @@
     ],
     
     "no-internal-module": true,
+
+    "no-shadowed-variable": false,
     
     "no-trailing-whitespace": true,
     

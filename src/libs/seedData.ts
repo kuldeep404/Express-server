@@ -4,35 +4,38 @@ const userRepository = new UserRepository();
 export default ( ) => {
     console.log('Inside seed data :::::: ');
     const user = {
-        name : 'kuldeep',
         email : 'kuldeep@gmail.com',
+        name : 'kuldeep',
     };
     userRepository.create(user)
     .then((res) => {
-        console.log("User created ::::::: ",res);
-    })
-    .then(() =>{
-       Database.Disconnect();
-    })
-    .catch((error) => {
-        console.log('Error occured',error)
+        console.log('User created ::::::: ', res);
+    // .then(() =>{
+    //    Database.Disconnect();
+    // })
+    // .catch((error) => {
+    //     console.log('Error occured',error)
+    // });
+        userRepository.update( {name: 'kuldeep'}, {name: 'KULDEEP'} )
+        .then(( res ) => {
+            console.log('updated data ::::::', res);
+        });
+        userRepository.get({name: 'kuldeep'}, undefined, undefined)
+        .then(( res ) => {
+            console.log('featching data ::::::', res);
+        });
+        userRepository.delete({name: 'kuldeep'})
+        .then((res ) => {
+            console.log('deleted file ::::::', res);
+        });
     });
-    userRepository.update({name: 'kuldeep'},{name: 'KULDEEP'}).then((res) => {
-        console.log('updated data ::::::',res)
-    })
-    .catch((error) => {
-        console.log('Error occured',error)
-     });
-    userRepository.get({name:'kuldeep'},null,null).then((res )=> {
-        console.log("Fetching all data :::::::", res);
-    })
-    .catch((error) => {
-        console.log('Error occured ::::::',error)
-    });
-    userRepository.delete({name:'KULDEEP'}).then((res )=> {
-        console.log("deleted file ::::::", res)
-    })
-    .catch((error) => {
-        console.log('Error occured :::::',error)
-    });
-}
+    // .catch((error) => {
+    //     console.log('Error occured',error)
+    //  });
+    // .catch((error) => {
+    //     console.log('Error occured ::::::',error)
+    // });
+    // .catch((error) => {
+    //     console.log('Error occured :::::',error)
+    // });
+};
