@@ -3,10 +3,10 @@ import IUserModel from './IUserModel';
 import IUserSchema from './UserSchema';
 import UserSchema from './UserSchema';
 const toConvert = {
-    trasform: (doc, ret) => {
+    transform: (doc, ret) => {
         ret.id = ret._id;
         delete ret._id;
-        delete ret._v;
+        delete ret.__v;
     },
     virtuals : true,
 };
