@@ -5,7 +5,7 @@ import UserRepository from './../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 class UserController {
     public getUser( req, res) {
-        // console.log('user is----->',req.user);
+        console.log('user is----->', req.user);
         res.send({
             data: req.user,
             message: 'User fetch successfully',
@@ -15,14 +15,14 @@ class UserController {
     public login(req, res, next) {
         console.log('inside login request ::::', req.body);
         const{ email, password } = req.body;
-        userRepository.findOne('{ email: email }')
+        userRepository.findOne({ email })
         .then((user) => {
             console.log('User is :::::', user);
             if (!user) {
                 return next('User Not found');
             }
             const {  password : hashPassword } = user;
-            // console.log('>>>>>>>>>>>>>>>>>>',password,hashPassword,user)
+            // console.log('>>>>>>>>>>>>>>>>>>', password,hashPassword,user)
             if (!(bcrypt.compareSync(password , hashPassword))) {
                 return next('password does not match');
             }

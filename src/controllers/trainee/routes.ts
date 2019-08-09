@@ -1,7 +1,7 @@
 import * as express from 'express';
-import { traineeController } from './Controller';
 import authmiddleware from '../../libs/routes/authmiddleware';
 import validationHandler from '../../libs/validationHandler';
+import { traineeController } from './Controller';
 import validation from './validation';
 
 const traineeRouter = express.Router();
