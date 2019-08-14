@@ -1,16 +1,12 @@
-import {permissions} from '../constants' ;
-export default function hasPermission(moduleName,role, permissionType){
-    if (!permissions.hasOwnProperty(moduleName)){
+import {permissions} from "../constants" ;
+export default function hasPermission(moduleName, role, permissionType) {
+    if (!permissions.hasOwnProperty(moduleName)) {
         return false;
-    }
-    else if(!permissions[moduleName].hasOwnProperty(permissionType)){
+    } else if (!permissions[moduleName].hasOwnProperty(permissionType)) {
         return false;
-    }
-    else if (!permissions[moduleName][permissionType].includes(role)){
+    } else if (!permissions[moduleName][permissionType].includes(role)) {
         return false;
-
-    } 
-    else{
+    } else {
         return true;
     }
 }

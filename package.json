@@ -1,57 +1,58 @@
 {
   "name": "patterns",
   "version": "1.0.0",
-  "description": "Diamond and equilateral tringle.",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start:extra": "npx babel-node extra",
-    "start": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
-    "nodemon": "nodemon ./dist/src/index.js",
-    "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
-    "lint:fix": "npm run lint --fix",
-    "commit": "npx git-cz"
+  "start:extra": "npx babel-node extra",
+  "clean": "rimraf dist",
+  "start": "npm run clean && tsc-watch --project . --onSuccess \"npm run nodemon\"",
+  "nodemon": "nodemon ./dist/src/index.js",
+  "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
+  "lint:fix": "npm run lint --fix",
+  "commit": "npx git-cz"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kuldeep404/Express-server.git"
+  "type": "git",
+  "url": "git+https://github.com/kuldeep404/Express-server.git"
   },
   "author": "kuldeep kumar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kuldeep404/Express-server/issues"
+  "url": "https://github.com/kuldeep404/Express-server/issues"
   },
   "homepage": "https://github.com/kuldeep404/Express-server#readme",
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@types/node": "^12.6.8",
-    "husky": "^3.0.1",
-    "nodemon": "^1.19.1",
-    "tsc-watch": "^2.2.1",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
+  "@babel/core": "^7.5.5",
+  "@babel/node": "^7.5.5",
+  "@babel/preset-env": "^7.5.5",
+  "@types/node": "^12.6.8",
+  "husky": "^3.0.1",
+  "nodemon": "^1.19.1",
+  "tsc-watch": "^2.2.1",
+  "tslint": "^5.18.0",
+  "typescript": "^3.5.3"
   },
   "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run lint"
-    }
+  "hooks": {
+  "pre-commit": "npm run lint",
+  "pre-push": "npm run lint"
+  }
   },
   "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
+  "commitizen": {
+  "path": "cz-conventional-changelog"
+  }
   },
   "dependencies": {
-    "@types/mongoose": "^5.5.12",
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.0.0",
-    "express": "^4.17.1",
-    "express-validator": "^6.1.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongod": "^2.0.0",
-    "mongoose": "^5.6.8"
+  "@types/mongoose": "^5.5.12",
+  "bcrypt": "^3.0.6",
+  "body-parser": "^1.19.0",
+  "dotenv": "^8.0.0",
+  "express": "^4.17.1",
+  "express-validator": "^6.1.1",
+  "jsonwebtoken": "^8.5.1",
+  "mongod": "^2.0.0",
+  "mongoose": "^5.6.8"
   }
 }
