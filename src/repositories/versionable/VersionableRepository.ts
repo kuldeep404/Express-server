@@ -29,7 +29,7 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
         const updateUser = await userRepository.findOne({ originalId: id, deletedAt: {$exists: false} })
         .then((data) => {
             if (!data) {
-            throw new Error ('user not found');
+            throw 'user not found';
             }
             originalData = data;
         })

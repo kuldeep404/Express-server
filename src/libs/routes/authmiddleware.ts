@@ -5,11 +5,8 @@ import UserRepository from '../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 export default ( moduleName, permissionType ) => (req, res, next) => {
     const token = req.headers.authorization;
-    const userinfo = jwt.verify(token, config.secretKey , ( error, result ) => {
-        if (error) {
-            next( 'Unauthrised Access' );
-        }
-        else if (hasPermission( moduleName, result.role, permissionType )) {
+    const userinfo = jwt.verify(token, config.secretKey );     
+    if (hasPermission( moduleName, userinfo.role, permissionType )) {
             userRepository.get({originalId: userinfo._id , deleatedAt: {$exists: false}}, undefined)
     .then((user) => {
         if (!user) {
@@ -22,13 +19,12 @@ export default ( moduleName, permissionType ) => (req, res, next) => {
     .catch((error) => {
         res.log('errror is ', error);
     });
-            next();
+            
         }
         else {
             next('Unauthrised Access');
-
         }
-    });
+    
     // userRepository.get({originalId: userinfo._id , deleatedAt: {$exists: false}}, undefined)
     // .then((user) => {
     //     if (!user) {

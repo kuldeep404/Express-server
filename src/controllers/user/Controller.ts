@@ -10,6 +10,7 @@ class UserController {
             req.body.dataToUpdate,
         ).then((result) => {
             if (result === 'user not found') {
+                console.log('hello')
                 next ({
                     message: result,
                     status: 404,
@@ -48,7 +49,7 @@ class UserController {
         });
     }
     public getUser( req, res) {
-        // console.log('user is----->',req.user);
+        console.log('user is----->',req);
         res.send({
             data: req.user,
             message: 'User fetch successfully',
