@@ -20,7 +20,6 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
             originalId: id,
             updatedBy: options.userId,
         });
-
         return model.save().then((record) => record.toObject());
     }
     public async update(id, options) {
@@ -29,7 +28,7 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
         const updateUser = await userRepository.findOne({ originalId: id, deletedAt: {$exists: false} })
         .then((data) => {
             if (!data) {
-            throw 'user not found';
+            throw new Error('not found');
             }
             originalData = data;
         })
@@ -59,7 +58,7 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
         let originalData;
         const findDelete = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
         if (!findDelete) {
-            throw new Error('user not found in delete');
+            throw new Error(' not found in delete');
         }
         else {
             originalData = findDelete;
@@ -73,6 +72,9 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
     }
     public get(query, projection) {
         return this.modelType.findOne(query, projection).lean();
+    }
+    public getAll(query, projection, options) {
+        return this.modelType.find(query, undefined, options).populate(' password ').lean();
     }
     // update(id, options) {
     //     let originalData;

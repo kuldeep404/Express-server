@@ -9,8 +9,7 @@ class UserController {
             {_id: req.body.id},
             req.body.dataToUpdate,
         ).then((result) => {
-            if (result === 'user not found') {
-                console.log('hello')
+            if (result === ' not found') {
                 next ({
                     message: result,
                     status: 404,
@@ -23,17 +22,12 @@ class UserController {
                     status: 200,
                 });
             }
-            // res.send({
-            //     data: req.body.dataToUpdate,
-            //     message: 'User update  successfully',
-            //     status: 'ok',
-            // });
         });
     }
     public deleteUser(req, res, next) {
         userRepository.delete({_id: req.params.id})
             .then((result) => {
-                if (result === ' user not found in delete ') {
+                if (result === ' not found in delete ') {
                     next({
                         message: result,
                         status: 404,
@@ -49,11 +43,11 @@ class UserController {
         });
     }
     public getUser( req, res) {
-        console.log('user is----->',req);
+        console.log('user is----->', req);
         res.send({
+            message: 'Me',
+            status: 'ok',
             data: req.user,
-            message: 'User fetch successfully',
-            status: 200,
         });
     }
     public login(req, res, next) {
@@ -66,7 +60,6 @@ class UserController {
                 return next('User Not found');
             }
             const {  password : hashPassword } = user;
-            // console.log('>>>>>>>>>>>>>>>>>>',password,hashPassword,user)
             if (!(bcrypt.compareSync(password , hashPassword))) {
                 return next('password does not match');
             }
@@ -74,11 +67,9 @@ class UserController {
             // console.log('Token is ::::', token);
             // console.log('User Response', user);
             res.send({
-                data: {
-                    token,
-                },
-                message: 'Login Successfully',
+                message: 'Authorization Token',
                 status: 200,
+                data: token,
             });
         });
     }

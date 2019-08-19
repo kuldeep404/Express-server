@@ -1,15 +1,5 @@
 const  validation = {
     create: {
-        password: {
-            required: true,
-            errorMessage: 'Password is required',
-            in: ['body'],
-        },
-        name: {
-            required: true,
-            errorMessage: 'Name is required',
-            in: ['body'],
-        },
         email: {
             required: true,
             in: [ 'body' ],
@@ -17,6 +7,11 @@ const  validation = {
             custom: ((value) => {
                 console.log('Value', value);
             }),
+        },
+        password: {
+            errorMessage: 'Password is required',
+            in: ['body'],
+            required: true,
         },
     },
     delete: {
@@ -28,18 +23,18 @@ const  validation = {
     },
     get: {
         limit: {
-            required: false,
-            number: true,
-            default: 1,
+            default: 10,
             errorMessage: 'Limit is invalid',
             in: ['query'],
+            number: true,
+            required: false,
         },
         skip: {
-            required: false,
-            number: true,
             default: 0,
             errorMessage: 'Skip is invalid',
             in: ['query'],
+            number: true,
+            required: false,
         },
     },
     update: {

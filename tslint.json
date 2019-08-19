@@ -115,6 +115,7 @@
     }
     
     ],
+    "object-literal-sort-keys": false,
     
     "no-internal-module": true,
 
