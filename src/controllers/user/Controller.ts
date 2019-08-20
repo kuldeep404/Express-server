@@ -4,14 +4,15 @@ import { config } from './../../config';
 import UserRepository from './../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 class UserController {
-        public updateUser(req , res, next) {
-        userRepository.update (
-            {_id: req.body.id},
-            req.body.dataToUpdate,
-        ).then((result) => {
-            if (result === ' not found') {
+    public async updateUser(req , res, next) {
+        try {
+            const updateUser = await userRepository.update (
+                {_id: req.body.id},
+                req.body.dataToUpdate,
+            );
+            if (updateUser === ' not found') {
                 next ({
-                    message: result,
+                    message: updateUser,
                     status: 404,
                 });
             }
@@ -22,25 +23,30 @@ class UserController {
                     status: 200,
                 });
             }
-        });
+        } catch (e) {
+            console.error(e);
+        }
     }
-    public deleteUser(req, res, next) {
-        userRepository.delete({_id: req.params.id})
-            .then((result) => {
-                if (result === ' not found in delete ') {
-                    next({
-                        message: result,
-                        status: 404,
-                    });
-                }
-                else {
-                    res.send({
-                    data: req.params.id,
-                    message: 'User delete   successfully',
-                    status: 200,
-                    });
-                }
-        });
+    public async deleteUser(req, res, next) {
+        try {
+            const deleteUser = await userRepository.delete({_id: req.params.id});
+            if (deleteUser === ' not found in delete ') {
+                next({
+                    message: deleteUser,
+                    status: 404,
+                });
+            }
+            else {
+                res.send({
+                data: req.params.id,
+                message: 'User delete   successfully',
+                status: 200,
+                });
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
     public getUser( req, res) {
         res.send({
@@ -49,20 +55,20 @@ class UserController {
             data: req.user,
         });
     }
-    public login(req, res, next) {
-        console.log('inside login request ::::', req.body);
-        const{ email, password } = req.body;
-        userRepository.findOne({ email })
-        .then((user) => {
-            console.log('User is :::::', user);
-            if (!user) {
+    public async login(req, res, next) {
+        // console.log('inside login request ::::', req.body);
+        try {
+            const{ email, password } = req.body;
+            const userlogin = await userRepository.findOne({ email });
+            // console.log('User is :::::', userlogin);
+            if (!userlogin) {
                 return next('User Not found');
             }
-            const {  password : hashPassword } = user;
+            const {  password : hashPassword } = userlogin;
             if (!(bcrypt.compareSync(password , hashPassword))) {
                 return next('password does not match');
             }
-            const token = jwt.sign(user, config.secretKey);
+            const token = jwt.sign(userlogin, config.secretKey, {expiresIn: '15m'});
             // console.log('Token is ::::', token);
             // console.log('User Response', user);
             res.send({
@@ -70,7 +76,10 @@ class UserController {
                 status: 200,
                 data: token,
             });
-        });
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
 }
 const userController = new UserController();

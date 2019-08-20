@@ -37,44 +37,46 @@ class TraineeController {
                 status: 'ok',
         });
     }
-    public updateTrainee(req , res, next) {
-        userRepository.update (
+    public async updateTrainee(req , res, next) {
+        const updateTrainee = await userRepository.update (
             {_id: req.body.id},
             req.body.dataToUpdate,
-        ).then((result) => {
-            if (result === ' not found') {
-                next ({
-                    message: result,
-                    status: 403,
+        );
+        if (updateTrainee === ' not found') {
+            next ({
+                message: updateTrainee,
+                status: 403,
+            });
+        }
+        else {
+            next({
+                message: 'Trainee update  successfully',
+                status: 200,
+            });
+        }
+    }
+    public async deleteTrainee(req, res, next) {
+        try {
+            const deleteTrainee = await userRepository.delete({_id: req.params.id});
+            if ( deleteTrainee === 'not found in delete') {
+                next({
+                    message: deleteTrainee,
+                    status: 404,
                 });
             }
             else {
-                next({
-                    // data: req.body.dataToUpdate,
-                    message: 'Trainee update  successfully',
-                    status: 200,
+                res.send({
+                data: req.params.id,
+                message: 'User delete   successfully',
+                status: 200,
                 });
             }
-        });
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
-    public deleteTrainee(req, res, next) {
-        userRepository.delete({_id: req.params.id})
-            .then((result) => {
-                if (result === ' not found in delete ') {
-                    next({
-                        message: result,
-                        status: 404,
-                    });
-                }
-                else {
-                    res.send({
-                    data: req.params.id,
-                    message: 'User delete   successfully',
-                    status: 200,
-                    });
-                }
-        });
-    }
+
     public getTrainee( req, res) {
         res.send({
             data: req.user,
@@ -82,7 +84,6 @@ class TraineeController {
             status: 'ok',
         });
     }
-
 }
 const traineeController = new TraineeController();
 export default traineeController;

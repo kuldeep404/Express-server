@@ -115,9 +115,13 @@
     }
     
     ],
+    "no-string-throw": false,
+    
     "object-literal-sort-keys": false,
     
     "no-internal-module": true,
+
+    "forin": false,
 
     "no-shadowed-variable": false,
     
