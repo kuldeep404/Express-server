@@ -1,13 +1,13 @@
 import * as express from 'express';
 import authmiddleware from '../../libs/routes/authmiddleware';
 import validationHandler from '../../libs/validationHandler';
-import { traineeController } from './Controller';
+import TraineeController from './Controller';
 import validation from './validation';
-
+// import router from 'src/router';
 const traineeRouter = express.Router();
 traineeRouter.route('/')
-    .get(authmiddleware('getUsers', 'read'), traineeController.get)
-    .post(validationHandler(validation.create), traineeController.create)
-    .put(validationHandler(validation.update), traineeController.update)
-    .delete(validationHandler(validation.delete), traineeController.delete);
+    .get(authmiddleware('getUsers', 'all'), TraineeController.get)
+    .post(validationHandler(validation.create), TraineeController.create)
+    .put(validationHandler(validation.update), TraineeController.updateTrainee);
+traineeRouter.route('/delete/:id').delete(validationHandler(validation.delete), TraineeController.deleteTrainee);
 export default traineeRouter;

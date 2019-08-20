@@ -4,12 +4,49 @@ import { config } from './../../config';
 import UserRepository from './../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 class UserController {
+        public updateUser(req , res, next) {
+        userRepository.update (
+            {_id: req.body.id},
+            req.body.dataToUpdate,
+        ).then((result) => {
+            if (result === ' not found') {
+                next ({
+                    message: result,
+                    status: 404,
+                });
+            }
+            else {
+                next({
+                    // data: req.body.dataToUpdate,
+                    message: 'User update  successfully',
+                    status: 200,
+                });
+            }
+        });
+    }
+    public deleteUser(req, res, next) {
+        userRepository.delete({_id: req.params.id})
+            .then((result) => {
+                if (result === ' not found in delete ') {
+                    next({
+                        message: result,
+                        status: 404,
+                    });
+                }
+                else {
+                    res.send({
+                    data: req.params.id,
+                    message: 'User delete   successfully',
+                    status: 200,
+                    });
+                }
+        });
+    }
     public getUser( req, res) {
-        console.log('user is----->', req.user);
         res.send({
-            data: req.user,
-            message: 'User fetch successfully',
+            message: 'Me',
             status: 'ok',
+            data: req.user,
         });
     }
     public login(req, res, next) {
@@ -22,7 +59,6 @@ class UserController {
                 return next('User Not found');
             }
             const {  password : hashPassword } = user;
-            // console.log('>>>>>>>>>>>>>>>>>>', password,hashPassword,user)
             if (!(bcrypt.compareSync(password , hashPassword))) {
                 return next('password does not match');
             }
@@ -30,36 +66,12 @@ class UserController {
             // console.log('Token is ::::', token);
             // console.log('User Response', user);
             res.send({
-                data: {
-                    token,
-                },
-                message: 'Login Successfully',
-                status: 'ok',
+                message: 'Authorization Token',
+                status: 200,
+                data: token,
             });
         });
     }
 }
 const userController = new UserController();
 export default userController;
-// import successHandler from '../../libs/routes/successHandler';
-// const data = {
-//     id: 1,
-//     name: 'trainee1',
-// };
-// class UserController {
-//     public get(req: Request , res: Response) {
-//         return res.send(successHandler(data, 'Trainee get successfully',  400));
-//     }
-//     public create(req: Request , res: Response) {
-//         // console.log('INSIDE TRAINEE CREATE');
-//         return res.send(successHandler(data, 'Trainee created successfully', 400));
-//     }
-//     public delete(req: Request , res: Response) {
-//         // console.log('INSIDE TRAINEE DELETE');
-//         return res.send(successHandler(data, 'Trainee deleted successfully', 400));
-//     }
-//     public update(req: Request , res: Response) {
-//         // console.log('INSIDE TRAINEE UPDATE');
-//         return res.send(successHandler(data, 'Trainee update successfully', 404));
-//     }
-// }
