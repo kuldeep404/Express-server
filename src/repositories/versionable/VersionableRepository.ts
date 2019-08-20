@@ -23,52 +23,55 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
         return model.save().then((record) => record.toObject());
     }
     public async update(id, options) {
-        let originalData;
-        const userRepository = new UserRepository();
-        const updateUser = await userRepository.findOne({ originalId: id, deletedAt: {$exists: false} })
-        .then((data) => {
-            if (!data) {
-            throw new Error('not found');
+        try {
+            let originalData;
+            const userRepository = new UserRepository();
+            const updateUser = await userRepository.findOne({ originalId: id, deletedAt: {$exists: false} });
+            if (!updateUser) {
+                throw 'not found';
             }
-            originalData = data;
-        })
-        .then(() => {
-            const id = VersionableRepository.generateObjectId();
-            const modelCreate = new this.modelType({
-            ...originalData,
-            ...options,
-            _id: id,
-            });
-            return this.modelType.create(modelCreate).then((record) => record.toObject());
-        })
-        .then(() => {
-            const modelUpdate = new this.modelType({
-            ...originalData,
-            deletedAt: Date.now(),
-            });
-            console.log(modelUpdate);
-            return this.modelType.updateOne(id, modelUpdate);
-        })
-        .catch((err) => {
-            return err;
-        });
-        return updateUser;
+            else {
+                originalData = updateUser;
+                const id = VersionableRepository.generateObjectId();
+                const modelCreate = new this.modelType({
+                    ...originalData,
+                    ...options,
+                    _id: id,
+                });
+                const record = await this.modelType.create(modelCreate);
+                await record.toObject();
+                const newestId = originalData.id;
+                const modelUpdate = new this.modelType({
+                    ...originalData,
+                    deletedAt: Date.now(),
+                });
+                return this.modelType.updateOne({ _id: newestId }, modelUpdate);
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
     public async delete(id) {
-        let originalData;
-        const findDelete = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
-        if (!findDelete) {
-            throw new Error(' not found in delete');
+        try {
+            let originalData;
+            const findDelete = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
+            if (!findDelete) {
+                throw 'not found in delete';
+            }
+            else {
+                originalData = findDelete;
+                const newId = originalData._id;
+                const modelDelete = new this.modelType({
+                    ...originalData,
+                    deletedAt: Date.now(),
+                });
+                return this.modelType.updateOne({ _id: newId }, modelDelete);
+            }
+        } catch (error) {
+            console.error(error);
         }
-        else {
-            originalData = findDelete;
-            const newId = originalData._id;
-            const modelDelete = new this.modelType({
-                ...originalData,
-                deletedAt: Date.now(),
-            });
-            return this.modelType.updateOne({ _id: newId }, modelDelete);
-        }
+
     }
     public get(query, projection) {
         return this.modelType.findOne(query, projection).lean();
@@ -76,23 +79,4 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
     public getAll(query, projection, options) {
         return this.modelType.find(query, undefined, options).populate(' password ').lean();
     }
-    // update(id, options) {
-    //     let originalData;
-    //     const userRepository = new UserRepository;
-
-    //     const model = new this.modelType({
-    //         ...options,
-    //         createdBy: options.userId,
-    //         updatedBy: options.userId,
-    //     });
-    //     return this.modelType.updateMany(query,model);
-    // }
-//     public delete(id,options){
-//         const model = new this.modelType({
-//         ...options,
-//         createdBy:options.userId,
-//         deletedBy: options.userId,
-//     });
-//     return this.modelType.deleteMany(id,options);
-// }
 }
