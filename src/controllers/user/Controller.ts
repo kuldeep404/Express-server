@@ -49,7 +49,6 @@ class UserController {
         }
     }
     public getUser( req, res) {
-        console.log('user is----->', req);
         res.send({
             message: 'Me',
             status: 'ok',

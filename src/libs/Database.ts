@@ -7,8 +7,8 @@ class Database {
                 console.log('connection error', error);
             }
             console.log('successfullly connected with mongoose');
+            userRepository();
         });
-        userRepository();
     }
     public static Disconnect() {
         mongoose.disconnect();

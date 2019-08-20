@@ -7,7 +7,7 @@
   "start:extra": "npx babel-node extra",
   "clean": "rimraf dist",
   "start": "npm run clean && tsc-watch --project . --onSuccess \"npm run nodemon\"",
-  "nodemon": "nodemon ./dist/src/index.js",
+  "nodemon": "nodemon ./dist/index.js",
   "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
   "lint:fix": "npm run lint --fix",
   "commit": "npx git-cz"
