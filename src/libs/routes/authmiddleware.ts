@@ -4,22 +4,29 @@ import { config } from '../../config';
 import UserRepository from '../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 export default ( moduleName, permissionType ) => async (req, res, next) => {
-    const token = req.headers.authorization;
-    const userinfo = jwt.verify(token, config.secretKey );
     try {
-        if (hasPermission( moduleName, userinfo.role, permissionType )) {
-            const user = await userRepository.get({originalId: userinfo._id , deleatedAt: {$exists: false}}, undefined);
-            if (!user) {
-                next('user does not exist');
-            }
-            console.log('user from db', user);
-            req.user = user;
-            next();
+        const token = req.headers.authorization;
+        const userinfo = jwt.verify(token, config.secretKey );
+        const user = await userRepository.get({originalId: userinfo._id , deleatedAt: {$exists: false}}, undefined);
+        if (!user) {
+            next('user does not exist');
+        }
+        req.user = user;
+        if (hasPermission( moduleName, userinfo.role, permissionType)) {
+        next();
         } else {
-            next('Unauthrised Access');
+            next({
+                message: ' Unauthrised access',
+                error: 'Unauthrised',
+                status: 403,
+            });
         }
     }
     catch (error) {
-        console.error(error);
+        next({
+            message: 'Token expired ',
+            error: 'Unauthrised',
+            status: 403,
+        });
     }
 };

@@ -21,4 +21,3 @@ export default function validateUser(newUser: any) {
   console.log('The names of valid users are :\n' + validuser + '\nThe count of valid user is:\n ' + validuser.length);
   console.log('\names of invalid users are :\n ' + invaliduser + ' count of invalid user is:\n ' + invaliduser.length);
 }
-// validateUser(users)

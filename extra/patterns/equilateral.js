@@ -10,5 +10,4 @@ export default function equilateral(n){
         console.log(str);
         str = "";
     }
-
 }

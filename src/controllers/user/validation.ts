@@ -1,5 +1,10 @@
 const  validation = {
     create: {
+        password: {
+            required: true,
+            errorMessage: 'Password is required',
+            in: ['body'],
+        },
         email: {
             required: true,
             in: [ 'body' ],
@@ -7,11 +12,6 @@ const  validation = {
             custom: ((value) => {
                 console.log('Value', value);
             }),
-        },
-        password: {
-            errorMessage: 'Password is required',
-            in: ['body'],
-            required: true,
         },
     },
     delete: {

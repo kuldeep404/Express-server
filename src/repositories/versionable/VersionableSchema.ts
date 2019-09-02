@@ -8,7 +8,6 @@ export default class VersionableSchema extends mongoose.Schema {
                 type: Date,
             },
             createdBy: {
-                // default: 'HM00032',
                 required: true,
                 type: String,
             },
@@ -22,7 +21,6 @@ export default class VersionableSchema extends mongoose.Schema {
 
             },
             originalId: {
-                // default: 'HM00032',
                 required: true,
                 type: String,
             },

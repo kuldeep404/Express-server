@@ -1,88 +1,90 @@
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import { config } from './../../config';
 import UserRepository from './../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 class TraineeController {
-    public async get(req, res) {
-        const traineeList = await userRepository.getAll({ role: 'trainee', deletedAt: { $exists: false } },
-        undefined, req.query);
-        const count: number = traineeList.length;
-        console.log('inside get trainee');
-        res.send([{
-            data: traineeList,
-            count,
-            message: 'all trainees fetched',
-            status: 200,
-        },
-        ]);
-    }
-    public async create(req, res) {
-        console.log('inside create trainee');
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(req.body.password, salt);
-        req.body.password = hash;
-        const data = {
-            role: 'trainee',
-            userId: 'kuldeep',
-            ...req.body,
-        };
-        const createTrainee = await userRepository.create(data);
-        res.send({
-            data: {
-                name: createTrainee,
-            },
-                message: 'trainee create successful',
-                status: 'ok',
-        });
-    }
-    public async updateTrainee(req , res, next) {
-        const updateTrainee = await userRepository.update (
-            {_id: req.body.id},
-            req.body.dataToUpdate,
-        );
-        if (updateTrainee === ' not found') {
-            next ({
-                message: updateTrainee,
-                status: 403,
+    public async get(req, res, next) {
+        try {
+            const traineeList = await userRepository.getAll({ role: 'trainee', deletedAt: { $exists: false } },
+            undefined, req.query);
+            const count: number = traineeList.length;
+            console.log('inside get trainee');
+            res.send({
+                data: traineeList,
+                count,
+                message: 'all trainees fetched',
+                status: 200,
             });
         }
-        else {
-            next({
-                message: 'Trainee update  successfully',
+        catch (error) {
+            console.log(error);
+        }
+    }
+    public async create(req, res, next ) {
+        try {
+            const saltRounds = 10;
+            const salt = bcrypt.genSaltSync(saltRounds);
+            const hash = bcrypt.hashSync(req.body.password, salt);
+            req.body.password = hash;
+            const data = {
+                role: 'trainee',
+                userId: 'kuldeep',
+                ...req.body,
+            };
+            const createTrainee = await userRepository.create(data);
+            res.send({
+                data: createTrainee,
+                message: 'trainee create successful',
                 status: 200,
+            });
+        }
+        catch (error) {
+            next({
+                error: 'Invalid Details ',
+                message: 'Details must be in proper format',
+                status: 404,
+            });
+        }
+    }
+    public async updateTrainee(req , res, next) {
+        try {
+            const updateTrainee = await userRepository.update(
+                {_id: req.body.id},
+                req.body.dataToUpdate,
+            );
+            if (updateTrainee) {
+                return res.send({
+                    message: 'Trainee update  successfully',
+                    status: 200,
+                    data: { id: req.body.id },
+                });
+            }
+        }
+        catch (error) {
+            next({
+                error: 'Invalid id',
+                message: 'id not found for update ',
+                status: 404,
             });
         }
     }
     public async deleteTrainee(req, res, next) {
         try {
-            const deleteTrainee = await userRepository.delete({_id: req.params.id});
-            if ( deleteTrainee === 'not found in delete') {
-                next({
-                    message: deleteTrainee,
-                    status: 404,
-                });
-            }
-            else {
-                res.send({
-                data: req.params.id,
-                message: 'User delete   successfully',
-                status: 200,
+            const result = await userRepository.delete({_id: req.params.id});
+            if (result) {
+                return res.send({
+                    data: req.params.id,
+                    message: ' delete   successfully',
+                    status: 200,
                 });
             }
         }
-        catch (e) {
-            console.error(e);
+        catch (error) {
+            next({
+                error: 'Invalid id ',
+                message: 'id not found for delete',
+                status: 404,
+            });
         }
-    }
-
-    public getTrainee( req, res) {
-        res.send({
-            data: req.user,
-            message: 'Successfully fetched Trainees',
-            status: 'ok',
-        });
     }
 }
 const traineeController = new TraineeController();

@@ -3,7 +3,6 @@ export interface IPermissions {
         [index: string]: string[];
     };
 }
-
 export interface IUser {
     reviewerEmail: string;
     traineeEmail: string;

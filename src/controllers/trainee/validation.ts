@@ -9,10 +9,12 @@ const  validation = {
             required: true,
             errorMessage: 'Name is required',
             in: ['body'],
+            regex: '^[a-z A-Z_0-9]+$',
         },
         email: {
             required: true,
             in: [ 'body' ],
+            regex: '^[^.+-_][a-zA-Z0-9._]+@gmail.com$',
             string: true,
             custom: ((value) => {
                 console.log('Value', value);
@@ -44,12 +46,39 @@ const  validation = {
     },
     update: {
         dataToUpdate: {
-            custom: ((dataToUpdate ) => {
-                return true ;
-            }),
+            required: true,
             in: ['body'],
             isObject: true,
-            required: true,
+            custom: (dataToUpdate, next, res) => {
+                const regex = /^[a-z A-Z]+$/;
+                const regexEmail = /^[^.+-_][a-zA-Z0-9._]+@gmail.com$/;
+                if ('name' in dataToUpdate &&  !regex.test(dataToUpdate.name) ) {
+                    throw({
+                        error: 'Invalid input',
+                        message: 'name incorrect',
+                        status: 422,
+                    });
+                }
+                if ('password' in dataToUpdate || dataToUpdate.password === null) {
+                    throw({
+                        error: 'Invalid input',
+                        message: 'password incorrect',
+                        status: 422,
+                    });
+                }
+                if ('email' in dataToUpdate && !regexEmail.test(dataToUpdate.email)) {
+                    throw({
+                        error: 'Invalid input',
+                        message: 'email incorrect',
+                        status: 422,
+                    });
+                }
+            },
+            id: {
+                in: ['body'],
+                required: true,
+                string: true,
+            },
         },
         id: {
             in: ['body'],

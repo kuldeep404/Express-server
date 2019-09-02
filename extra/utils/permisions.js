@@ -10,5 +10,3 @@ export default function hasPermission(moduleName, role, permissionType) {
         return true;
     }
 }
-    //let v =   hasPermission("getUsers","head-trainer","all")
-    //console.log(v)
