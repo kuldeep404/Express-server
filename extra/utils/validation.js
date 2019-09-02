@@ -1,9 +1,9 @@
 import validateEmail from './helpers';
-export default function validateUser(new_users) {
+export default function validateUser(newUsers) {
   let validuser = [];
   let invaliduser = [];  
-  new_users.forEach(function(user_n){
-    const { traineeEmail, reviewerEmail } = user_n;  
+  new_users.forEach(function(users){
+    const { traineeEmail, reviewerEmail } = users;  
     if (validateEmail(traineeEmail)) {
       validuser.push(traineeEmail);
       
