@@ -24,46 +24,38 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
         }
     }
 
-    public async update(id, options) {
+    public async update(traineeId, options) {
         try {
-            const Update = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
-            if (!Update) {
-                throw 'not found ';
-            } else {
-                const id = VersionableRepository.generateObjectId();
-                const modelCreate = new this.modelType({
-                    ...Update,
-                    ...options,
-                    _id: id,
-                });
-                const result = await this.modelType.create(modelCreate);
-                await result.toObject();
-                const newId = Update._id;
-                const modelUpdate = new this.modelType({
-                    ...Update,
-                    deletedAt: Date.now(),
-                });
-                return this.modelType.updateOne({ _id: newId }, modelUpdate);
-            }
-        } catch (err) {
-            throw err;
+            const Update = await this.modelType.findOne({ originalId: traineeId,
+                deletedAt: { $exists: false } }).lean();
+            const id = VersionableRepository.generateObjectId();
+            const modelCreate = new this.modelType({
+                ...Update,
+                ...options,
+                _id: id,
+            });
+            const result = await this.modelType.create(modelCreate);
+            await result.toObject();
+            const newId = Update._id;
+            const modelUpdate = new this.modelType({
+                ...Update,
+                deletedAt: Date.now(),
+            });
+            return this.modelType.updateOne({ _id: newId }, modelUpdate);
+        } catch (error) {
+            throw error;
         }
 
     }
     public async delete(id) {
         try {
             const Delete = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
-            if (!Delete) {
-                throw 'not found ';
-            }
-            else {
-                const newId = Delete._id;
-                const modelDelete = new this.modelType({
-                    ...Delete,
-                    deletedAt: Date.now(),
-                });
-                return this.modelType.updateOne({ _id: newId }, modelDelete);
-            }
+            const newId = Delete._id;
+            const modelDelete = new this.modelType({
+                ...Delete,
+                deletedAt: Date.now(),
+            });
+            return this.modelType.updateOne({ _id: newId }, modelDelete);
         } catch (error) {
             throw error;
         }

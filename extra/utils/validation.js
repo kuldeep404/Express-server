@@ -1,8 +1,8 @@
 import validateEmail from './helpers';
-export default function validateUser(newUsers) {
+export default function validateUser(newUser) {
   let validuser = [];
   let invaliduser = [];  
-  new_users.forEach(function(users){
+  newUser.forEach(function(users){
     const { traineeEmail, reviewerEmail } = users;  
     if (validateEmail(traineeEmail)) {
       validuser.push(traineeEmail);
@@ -20,6 +20,6 @@ export default function validateUser(newUsers) {
       invaliduser.push(reviewerEmail);   
     }
   }); 
-console.log("\nThe names of valid users are :\n " + validuser + "   \nThe count of valid user is:\n " + validuser.length);
-console.log("\nThe names of invalid users are :\n " + invaliduser + "   \nThe count of invalid user is:\n " + invaliduser.length);
+  console.log(`The names of valid users are :  ${ validuser  } and  count of valid user is  ${ validuser.length }`);
+  console.log(`The names of invalid users are : ${ invaliduser } and count of invalid user is ${ invaliduser.length }`);
 }

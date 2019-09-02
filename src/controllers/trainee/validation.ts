@@ -16,9 +16,6 @@ const  validation = {
             in: [ 'body' ],
             regex: '^[^.+-_][a-zA-Z0-9._]+@gmail.com$',
             string: true,
-            custom: ((value) => {
-                console.log('Value', value);
-            }),
         },
     },
     delete: {
@@ -32,7 +29,7 @@ const  validation = {
         limit: {
             required: false,
             number: true,
-            default: 1,
+            default: 10,
             errorMessage: 'Limit is invalid',
             in: ['query'],
         },

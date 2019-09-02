@@ -18,6 +18,6 @@ export default function validateUser(newUser: any) {
       invaliduser.push(reviewerEmail);
     }
   });
-  console.log('The names of valid users are :\n' + validuser + '\nThe count of valid user is:\n ' + validuser.length);
-  console.log('\names of invalid users are :\n ' + invaliduser + ' count of invalid user is:\n ' + invaliduser.length);
+  console.log(`The names of valid users are :  ${ validuser  } and  count of valid user is  ${ validuser.length }`);
+  console.log(`The names of invalid users are : ${ invaliduser } and count of invalid user is ${ invaliduser.length }`);
 }

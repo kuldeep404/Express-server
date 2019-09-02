@@ -7,5 +7,5 @@ const userRouter = express.Router();
 userRouter.route('/login')
     .post(validationHandler(validation.create), UserController.login );
 userRouter.route('/me')
-    .get(authmiddleware('getUsers', 'all' ), UserController.getUser);
+    .get(authmiddleware('getUsers', 'all' ), validationHandler(validation.get), UserController.getUser);
 export default userRouter;

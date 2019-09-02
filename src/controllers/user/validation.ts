@@ -9,9 +9,6 @@ const  validation = {
             required: true,
             in: [ 'body' ],
             string: true,
-            custom: ((value) => {
-                console.log('Value', value);
-            }),
         },
     },
     delete: {
@@ -23,18 +20,18 @@ const  validation = {
     },
     get: {
         limit: {
+            required: false,
+            in: ['query'],
+            number: true,
             default: 10,
             errorMessage: 'Limit is invalid',
-            in: ['query'],
-            number: true,
-            required: false,
         },
         skip: {
-            default: 0,
-            errorMessage: 'Skip is invalid',
+            required: false,
             in: ['query'],
             number: true,
-            required: false,
+            default: 0,
+            errorMessage: 'Skip is invalid',
         },
     },
     update: {

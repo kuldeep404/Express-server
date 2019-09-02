@@ -6,6 +6,6 @@ console.log('printing equilateral triangle pattern: \n');
 equilateral(10);
 console.log('printing diamond pattern: \n');
 diamond(5);
-const status = haspermission({ moduleName: 'getUsers', role: 'head-trainer', permissionType: 'all' });
+const status = hasPermission('getUsers', 'head-trainer', 'read');
 console.log('Permission Granted status:', status);
 validateUser(users);

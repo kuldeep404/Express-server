@@ -7,8 +7,9 @@ import validation from './validation';
 const traineeRouter = express.Router();
 traineeRouter.route('/')
     .get(authmiddleware('getUsers', 'all'), validationHandler(validation.get), TraineeController.get)
-    .post(authmiddleware('getUsers', 'all'), validationHandler(validation.create), TraineeController.create)
-    .put(authmiddleware('getUsers', 'all'), validationHandler(validation.update), TraineeController.updateTrainee);
+    .post(authmiddleware('getUsers', 'write'), validationHandler(validation.create), TraineeController.create)
+    .put(authmiddleware('getUsers', 'write'), validationHandler(validation.update), TraineeController.updateTrainee);
 traineeRouter.route('/delete/:id')
-    .delete(authmiddleware('getUsers', 'all'), validationHandler(validation.delete), TraineeController.deleteTrainee);
+    .delete(authmiddleware('getUsers', 'delete'), validationHandler(validation.delete),
+    TraineeController.deleteTrainee);
 export default traineeRouter;

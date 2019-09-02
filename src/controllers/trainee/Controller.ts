@@ -7,7 +7,6 @@ class TraineeController {
             const traineeList = await userRepository.getAll({ role: 'trainee', deletedAt: { $exists: false } },
             undefined, req.query);
             const count: number = traineeList.length;
-            console.log('inside get trainee');
             res.send({
                 data: traineeList,
                 count,
@@ -16,7 +15,11 @@ class TraineeController {
             });
         }
         catch (error) {
-            console.log(error);
+            next({
+                error: ' Fetching Unable ',
+                message: ' Error in fetching data',
+                status: 404,
+            });
         }
     }
     public async create(req, res, next ) {
@@ -27,7 +30,7 @@ class TraineeController {
             req.body.password = hash;
             const data = {
                 role: 'trainee',
-                userId: 'kuldeep',
+                userId: req.user,
                 ...req.body,
             };
             const createTrainee = await userRepository.create(data);
@@ -47,15 +50,15 @@ class TraineeController {
     }
     public async updateTrainee(req , res, next) {
         try {
+            const { dataToUpdate, id } = req.body;
             const updateTrainee = await userRepository.update(
-                {_id: req.body.id},
-                req.body.dataToUpdate,
+                {_id: id}, dataToUpdate,
             );
             if (updateTrainee) {
                 return res.send({
                     message: 'Trainee update  successfully',
                     status: 200,
-                    data: { id: req.body.id },
+                    data: { id },
                 });
             }
         }
@@ -69,10 +72,11 @@ class TraineeController {
     }
     public async deleteTrainee(req, res, next) {
         try {
-            const result = await userRepository.delete({_id: req.params.id});
+            const { id } = req.params;
+            const result = await userRepository.delete({_id: id});
             if (result) {
                 return res.send({
-                    data: req.params.id,
+                    data: id,
                     message: ' delete   successfully',
                     status: 200,
                 });
