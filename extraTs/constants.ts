@@ -2,9 +2,9 @@ import { IPermissions , IUser } from './interfaces';
 export const permissions: IPermissions = {
   getUsers: {
     all: ['head-trainer'],
-    delete: [],
-    read : ['trainee', 'trainer'],
-    write : ['trainer'],
+    delete: ['head-trainer'],
+    read : ['trainee', 'trainer', 'head-trainer'],
+    write : ['trainer', 'head-trainer'],
   },
 };
 export const users: IUser[] = [

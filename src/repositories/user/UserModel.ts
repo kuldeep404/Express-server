@@ -6,9 +6,9 @@ const toConvert = {
     transform: (doc, ret) => {
         ret.id = ret._id;
         delete ret._id;
-        delete ret.__v;
+        delete ret._v;
     },
-    virtuals : true,
+    virtuals : false,
 };
 export const userSchema = new UserSchema({
     collection: 'user',

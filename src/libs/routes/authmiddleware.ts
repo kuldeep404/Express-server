@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import hasPermission from '../../../extra/utils/permisions';
+import hasPermission from '../../../extraTs/utils/permisions';
 import { config } from '../../config';
 import UserRepository from '../../repositories/user/UserRepository';
 const userRepository = new UserRepository();

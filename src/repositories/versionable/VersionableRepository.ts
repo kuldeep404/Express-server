@@ -14,9 +14,8 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
             const model = new this.modelType({
                 ...options,
                 _id: id,
-                createdBy: options.userId,
+                createdBy: id,
                 originalId: id,
-                updatedBy: options.userId,
             });
             return model.save().then((record) => record.toObject());
         } catch (err) {
@@ -62,9 +61,9 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
 
     }
     public get(query, projection) {
-        return this.modelType.findOne(query, projection).lean();
+        return this.modelType.findOne(query, '-__v -password -updatedAt', projection).lean();
     }
     public getAll(query, projection, options) {
-        return this.modelType.find(query, undefined, options).populate(' password ').lean();
+        return this.modelType.find(query, '-__v -password -updatedAt', options).populate(' password ').lean();
     }
 }

@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt';
+import { userModel } from '../../repositories/user/UserModel';
 import UserRepository from './../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 class TraineeController {
@@ -24,20 +25,35 @@ class TraineeController {
     }
     public async create(req, res, next ) {
         try {
-            const saltRounds = 10;
-            const salt = bcrypt.genSaltSync(saltRounds);
-            const hash = bcrypt.hashSync(req.body.password, salt);
-            req.body.password = hash;
-            const data = {
-                role: 'trainee',
-                userId: req.user,
-                ...req.body,
-            };
-            const createTrainee = await userRepository.create(data);
-            res.send({
-                data: createTrainee,
-                message: 'trainee create successful',
-                status: 200,
+            const { email } = req.body;
+            userModel.countDocuments({ email }, async (err, count) => {
+                if (count === 0) {
+                    const saltRounds = 10;
+                    const salt = bcrypt.genSaltSync(saltRounds);
+                    const hash = bcrypt.hashSync(req.body.password, salt);
+                    req.body.password = hash;
+
+                    const data = {
+                        role: 'trainee',
+                        userId: req.user,
+                        ...req.body,
+                    };
+                    const createTrainee = await userRepository.create(data);
+                    delete createTrainee.__v;
+                    const dataOne = Object.defineProperty(createTrainee, 'password', { enumerable: false });
+                    res.send({
+                        data: dataOne,
+                        message: 'trainee create successful',
+                        status: 200,
+                    });
+                }
+                else {
+                    next({
+                        error: 'Invalid email',
+                        message: 'user already exists',
+                        status: 400,
+                    });
+                }
             });
         }
         catch (error) {
@@ -48,6 +64,7 @@ class TraineeController {
             });
         }
     }
+
     public async updateTrainee(req , res, next) {
         try {
             const { dataToUpdate, id } = req.body;

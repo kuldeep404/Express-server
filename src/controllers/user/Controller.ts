@@ -10,6 +10,7 @@ class UserController {
             status: 200,
             data: req.user,
         });
+
     }
     public async login(req, res, next) {
         try {
@@ -30,9 +31,10 @@ class UserController {
                         status: 401,
                 });
             }
+
             const token = jwt.sign(userlogin, config.secretKey , {expiresIn: '15m'});
             res.send({
-                message: 'Authorization Token',
+                message: 'Login successfully',
                 status: 200,
                 data: token,
             });

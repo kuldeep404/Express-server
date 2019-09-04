@@ -4,6 +4,15 @@ const  validation = {
             required: true,
             errorMessage: 'Password is required',
             in: ['body'],
+            custom: (password) => {
+                if (!password) {
+                    throw({
+                        error: 'Invalid input',
+                        message: 'password cannot  be empty',
+                        status: 422,
+                    });
+                }
+            },
         },
         name: {
             required: true,

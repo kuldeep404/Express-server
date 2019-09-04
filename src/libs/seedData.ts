@@ -5,15 +5,14 @@ const userRepository = new UserRepository();
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 const hash = bcrypt.hashSync('Training@123', salt);
-export default ( ) => {
+export default () => {
     const user = {
         email: 'kuldeep@gmail.com',
         name: 'Kuldeep Kumar',
         password: hash,
         role: 'head-trainer',
-        userId: 'kuldeep Kumar',
     };
-    userModel.countDocuments({}, (err , count) => {
+    userModel.countDocuments({}, (err, count) => {
         if (count === 0) {
             return userRepository.create(user);
         }
