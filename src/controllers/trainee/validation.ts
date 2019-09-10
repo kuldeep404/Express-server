@@ -23,7 +23,7 @@ const  validation = {
         email: {
             required: true,
             in: [ 'body' ],
-            regex: '^[^.+-_][a-zA-Z0-9._]+@gmail.com$',
+            regex: '^[^.+-_][a-zA-Z0-9._]+@successive.tech$',
             string: true,
         },
     },
@@ -57,7 +57,7 @@ const  validation = {
             isObject: true,
             custom: (dataToUpdate, next, res) => {
                 const regex = /^[a-z A-Z]+$/;
-                const regexEmail = /^[^.+-_][a-zA-Z0-9._]+@gmail.com$/;
+                const regexEmail = /^[^.+-_][a-zA-Z0-9._]+@successive.tech$/;
                 if ('name' in dataToUpdate &&  !regex.test(dataToUpdate.name) ) {
                     throw({
                         error: 'Invalid input',

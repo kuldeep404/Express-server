@@ -7,7 +7,7 @@ const salt = bcrypt.genSaltSync(saltRounds);
 const hash = bcrypt.hashSync('Training@123', salt);
 export default () => {
     const user = {
-        email: 'kuldeep@gmail.com',
+        email: 'kuldeep@successive.tech',
         name: 'Kuldeep Kumar',
         password: hash,
         role: 'head-trainer',

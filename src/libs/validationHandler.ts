@@ -1,5 +1,7 @@
 import { isObject } from 'util';
+
 const validationHandler = (config) => (req, res, next) => {
+    const err = [];
     for (const key in config) {
         const dataPlace = config[key].in;
         const input = req[dataPlace][key];
@@ -16,12 +18,9 @@ const validationHandler = (config) => (req, res, next) => {
                     }
 
                     else {
-                        next({
-                        error: 'Wrong input ',
-                        message: `${key} is required`,
-                        status: 422,
-                        });
+                        err.push(`${key} is required`);
                     }
+
                     break;
                 case 'string':
                     const value = req[dataPlace][key];
@@ -54,12 +53,10 @@ const validationHandler = (config) => (req, res, next) => {
                     }
                     break;
                 case 'isObject':
-                    if (!isObject(req[dataPlace][key]) && req[dataPlace][key] !== null) {
-                        next({
-                            error: 'Wrong Input',
-                            message: `${key} should be Object only`,
-                            status: 422,
-                        });
+                    const object = req[dataPlace][key];
+                    if (!isObject(object) || Object.entries(object).length === 0) {
+                        err.push(`${key} is required`);
+                        break;
                     }
                     break;
                 case 'custom':
@@ -68,7 +65,18 @@ const validationHandler = (config) => (req, res, next) => {
                 default:
                     break;
             }
+            if ( err.length !== 0) {
+                break ;
+            }
         }
+    }
+    // console.log(err.length)
+    if (err.length !== 0 ) {
+        return next({
+                error: 'Bad request ',
+                message: err,
+                status: 422,
+        });
     }
     next();
 };

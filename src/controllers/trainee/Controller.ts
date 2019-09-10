@@ -7,7 +7,11 @@ class TraineeController {
         try {
             const traineeList = await userRepository.getAll({ role: 'trainee', deletedAt: { $exists: false } },
             undefined, req.query);
-            const count: number = traineeList.length;
+            const count = await userModel.countDocuments({
+                deletedAt: { $exists: false },
+                deletedBy: { $exists: false },
+                role: 'trainee',
+                });
             res.send({
                 data: traineeList,
                 count,
@@ -32,17 +36,18 @@ class TraineeController {
                     const salt = bcrypt.genSaltSync(saltRounds);
                     const hash = bcrypt.hashSync(req.body.password, salt);
                     req.body.password = hash;
+                    const userId = req.user.originalId;
 
                     const data = {
                         role: 'trainee',
                         userId: req.user,
                         ...req.body,
                     };
-                    const createTrainee = await userRepository.create(data);
+                    const createTrainee = await userRepository.create(data, userId);
                     delete createTrainee.__v;
-                    const dataOne = Object.defineProperty(createTrainee, 'password', { enumerable: false });
+                    const newData = Object.defineProperty(createTrainee, 'password', { enumerable: false });
                     res.send({
-                        data: dataOne,
+                        data: newData,
                         message: 'trainee create successful',
                         status: 200,
                     });
@@ -67,17 +72,31 @@ class TraineeController {
 
     public async updateTrainee(req , res, next) {
         try {
-            const { dataToUpdate, id } = req.body;
-            const updateTrainee = await userRepository.update(
-                {_id: id}, dataToUpdate,
-            );
-            if (updateTrainee) {
-                return res.send({
-                    message: 'Trainee update  successfully',
-                    status: 200,
-                    data: { id },
-                });
-            }
+            const { dataToUpdate, id} = req.body;
+            const { email } = dataToUpdate;
+
+            const updateQuery = { email, originalId: { $ne: id } };
+
+            userModel.countDocuments(updateQuery, async (err, count) => {
+                if (count === 0) {
+                    const updateTrainee = await userRepository.update(
+                        {_id: id} , dataToUpdate,
+                    );
+                    if (updateTrainee) {
+                        res.send({
+                            message: 'Trainee update  successfully',
+                            status: 200,
+                            data: { id },
+                        });
+                    }
+                } else {
+                    next({
+                        error: 'Invalid email ',
+                        message: 'email already exist',
+                        status: 404,
+                    });
+                }
+            });
         }
         catch (error) {
             next({

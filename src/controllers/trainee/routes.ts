@@ -9,7 +9,7 @@ traineeRouter.route('/')
     .get(authmiddleware('getUsers', 'all'), validationHandler(validation.get), TraineeController.get)
     .post(authmiddleware('getUsers', 'write'), validationHandler(validation.create), TraineeController.create)
     .put(authmiddleware('getUsers', 'write'), validationHandler(validation.update), TraineeController.updateTrainee);
-traineeRouter.route('/delete/:id')
+traineeRouter.route('/:id')
     .delete(authmiddleware('getUsers', 'delete'), validationHandler(validation.delete),
     TraineeController.deleteTrainee);
 export default traineeRouter;

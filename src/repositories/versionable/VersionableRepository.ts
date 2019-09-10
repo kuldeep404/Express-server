@@ -8,13 +8,13 @@ export default class VersionableRepository < D extends mongoose.Document, M exte
     constructor(modelType) {
         this.modelType = modelType;
     }
-    public async create(options): Promise < D > {
+    public async create(options, userId?): Promise < D > {
         try {
             const id = VersionableRepository.generateObjectId();
             const model = new this.modelType({
                 ...options,
                 _id: id,
-                createdBy: id,
+                createdBy: userId || id,
                 originalId: id,
             });
             return model.save().then((record) => record.toObject());
