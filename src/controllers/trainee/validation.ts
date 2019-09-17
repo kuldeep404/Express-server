@@ -1,30 +1,36 @@
 const  validation = {
     create: {
-        password: {
-            required: true,
-            errorMessage: 'Password is required',
-            in: ['body'],
-            custom: (password) => {
-                if (!password) {
-                    throw({
-                        error: 'Invalid input',
-                        message: 'password cannot  be empty',
-                        status: 422,
-                    });
-                }
-            },
-        },
         name: {
             required: true,
+            custom: (password) => {
+                if (!password) {
+                    return ('name cannot be empty');
+                }
+            },
             errorMessage: 'Name is required',
             in: ['body'],
             regex: '^[a-z A-Z_0-9]+$',
         },
         email: {
             required: true,
+            custom: (password) => {
+                if (!password) {
+                    return ('email cannot be empty');
+                }
+            },
             in: [ 'body' ],
             regex: '^[^.+-_][a-zA-Z0-9._]+@successive.tech$',
             string: true,
+        },
+        password: {
+            required: true,
+            custom: (password) => {
+                if (!password) {
+                    return ('password cannot be empty');
+                }
+            },
+            errorMessage: 'Password is required',
+            in: ['body'],
         },
     },
     delete: {
@@ -65,7 +71,8 @@ const  validation = {
                         status: 422,
                     });
                 }
-                if ('password' in dataToUpdate || dataToUpdate.password === null) {
+                if ('password' in dataToUpdate && !dataToUpdate.password) {
+                    console.log('hello', dataToUpdate.password);
                     throw({
                         error: 'Invalid input',
                         message: 'password incorrect',

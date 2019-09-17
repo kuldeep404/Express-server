@@ -10,7 +10,8 @@
     "nodemon": "nodemon ./dist/src/index.js",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
     "lint:fix": "npm run lint --fix",
-    "commit": "npx git-cz"
+    "commit": "npx git-cz",
+    "test": "jest --coverage " 
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,11 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "@types/node": "^12.6.8",
     "husky": "^3.0.1",
+    "mongodb-memory-server": "^5.2.2",
     "nodemon": "^1.19.1",
     "tsc-watch": "^2.2.1",
     "tslint": "^5.18.0",
@@ -45,15 +48,22 @@
     }
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.6.0",
+    "@nestjs/common": "^6.6.7",
+    "@types/jest": "^24.0.18",
     "@types/mongoose": "^5.5.12",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.1.1",
+    "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
     "mongod": "^2.0.0",
     "mongoose": "^5.6.8",
-    "swagger-ui-express": "^4.0.7"
+    "supertest": "^4.0.2",
+    "swagger-ui-express": "^4.0.7",
+    "test": "^0.6.0",
+    "ts-jest": "^24.0.2"
   }
 }

@@ -109,9 +109,11 @@ class TraineeController {
     public async deleteTrainee(req, res, next) {
         try {
             const { id } = req.params;
+            console.log('----------delete--------', req.params);
             const result = await userRepository.delete({_id: id});
+            console.log('----------delete--------', result);
             if (result) {
-                return res.send({
+                 res.send({
                     data: id,
                     message: ' delete   successfully',
                     status: 200,
@@ -119,6 +121,7 @@ class TraineeController {
             }
         }
         catch (error) {
+            console.log('bye beye');
             next({
                 error: 'Invalid id ',
                 message: 'id not found for delete',

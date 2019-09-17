@@ -24,7 +24,7 @@ export default ( moduleName, permissionType ) => async (req, res, next) => {
     }
     catch (error) {
         next({
-            message: 'Token expired ',
+            message: 'Token expired',
             error: 'Unauthrised',
             status: 403,
         });

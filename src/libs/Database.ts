@@ -1,14 +1,13 @@
 import * as mongoose from 'mongoose';
-import userRepository from './seedData';
+import seedData from './seedData';
 class Database {
-    public static open( mongoUri ) {
-        mongoose.connect(mongoUri, {useNewUrlParser: true} , ( error ) => {
-            if ( error ) {
-                console.log('connection error', error);
+    public static async open( mongoUri ) {
+        const res = await mongoose.connect(mongoUri, {useNewUrlParser: true} );
+        if ( !res) {
+                console.log('connection error', res);
             }
-            console.log('successfullly connected with mongoose');
-            userRepository();
-        });
+        console.log('successfullly connected with mongoose');
+        await seedData();
     }
     public static Disconnect() {
         mongoose.disconnect();

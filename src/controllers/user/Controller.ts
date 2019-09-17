@@ -6,7 +6,7 @@ const userRepository = new UserRepository();
 class UserController {
     public getUser( req, res) {
         res.send({
-            message: 'user get successfully ',
+            message: 'user get successfully',
             status: 200,
             data: req.user,
         });
@@ -16,6 +16,7 @@ class UserController {
         try {
             const{ email, password } = req.body;
             const userlogin = await userRepository.findOne({ email });
+            // console.log(userlogin);
             if (!userlogin  ) {
                 return next({
                     error: 'Invalid Credetial',
